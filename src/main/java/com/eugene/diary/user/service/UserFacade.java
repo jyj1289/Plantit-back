@@ -2,6 +2,7 @@ package com.eugene.diary.user.service;
 
 import com.eugene.diary.user.domain.User;
 import com.eugene.diary.user.domain.UserRepository;
+import com.eugene.diary.user.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +16,6 @@ public class UserFacade {
     @Transactional(readOnly = true)
     public User getUser(String email) {
         return userRepository.findByEmail(email)
-                .orElseThrow();
+                .orElseThrow(UserNotFoundException::new);
     }
 }
