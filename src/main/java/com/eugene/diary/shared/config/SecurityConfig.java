@@ -23,8 +23,9 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(request ->
-                        request.requestMatchers(CorsUtils::isPreFlightRequest).permitAll());
+                .authorizeHttpRequests(request -> request
+                        .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+                        .anyRequest().permitAll());
 
         return http.build();
     }
