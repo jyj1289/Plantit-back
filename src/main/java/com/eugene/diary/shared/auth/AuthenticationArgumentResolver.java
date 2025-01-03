@@ -29,5 +29,4 @@ public class AuthenticationArgumentResolver implements HandlerMethodArgumentReso
         User user = tokenService.getUser(token);
         return user;
     }
-
 }
