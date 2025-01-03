@@ -26,13 +26,13 @@ public class TokenService {
     public final UserFacade userFacade;
 
     public String generateAccessToken(String id) {
-        return generateAccessToken(id, TokenType.ACCESS_TOKEN,
+        return generateToken(id, TokenType.ACCESS_TOKEN,
                 jwtProperties.getAccessExpirationTime());
     }
 
     public String generateRefreshToken(String id) {
         String token = generateToken(id, TokenType.REFRESH_TOKEN,
-                jwtProperties.getRefreshExpiration());
+                jwtProperties.getRefreshExpirationTime());
         tokenRepository.save(
                 Token.builder()
                         .id(id)
