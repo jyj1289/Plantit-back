@@ -10,6 +10,7 @@ import org.springframework.web.bind.MissingRequestValueException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.net.BindException;
 import java.util.HashMap;
@@ -53,6 +54,14 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(GlobalErrorProperty.BAD_REQUEST.getStatus())
                 .body(new ErrorResponse(GlobalErrorProperty.BAD_REQUEST, e.getMessage()));
+    }
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<String> handleNoResourceFoundException(NoResourceFoundException e) {
+
+        return ResponseEntity
+                .status(e.getStatusCode())
+                .body(e.getMessage());
     }
 
     @ExceptionHandler(DiaryException.class)
