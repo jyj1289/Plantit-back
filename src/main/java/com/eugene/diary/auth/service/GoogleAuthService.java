@@ -41,7 +41,7 @@ public class GoogleAuthService {
         String email = information.getEmail();
         Optional<User> user = userRepository.findByEmail(email);
 
-        if (user.isPresent()) {
+        if (user.isEmpty()) {
             userRepository.save(new User(email, information.getName()));
         }
 
