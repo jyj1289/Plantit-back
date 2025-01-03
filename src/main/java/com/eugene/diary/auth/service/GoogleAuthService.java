@@ -24,7 +24,7 @@ public class GoogleAuthService {
     private final UserRepository userRepository;
     private final TokenService tokenService;
 
-    private static final String QUERY_STRING = "?client_id%s&redirect_uri%s&response_type=code&" + "scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile";
+    private static final String QUERY_STRING = "?client_id=%s&redirect_uri=%s&response_type=code&" + "scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile";
 
     public String getGoogleAuthLink() {
         return authProperties.getGoogleBaseUrl() + String.format(QUERY_STRING, authProperties.getGoogleClientId(), authProperties.getGoogleRedirectUri());
