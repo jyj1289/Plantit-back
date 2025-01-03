@@ -1,5 +1,6 @@
 package com.eugene.diary.auth.service;
 
+import com.eugene.diary.auth.controller.dto.response.TokenResponse;
 import com.eugene.diary.auth.domain.Token;
 import com.eugene.diary.auth.domain.TokenRepository;
 import com.eugene.diary.auth.domain.type.TokenType;
@@ -12,10 +13,12 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
+import java.util.Objects;
 
 @RequiredArgsConstructor
 @Service
@@ -39,6 +42,36 @@ public class TokenService {
                         .token(token)
                         .build()
         );
+
+        return token;
+    }
+
+    @Transactional(readOnly = true)
+    public TokenResponse refreshAccessToken(String refreshToken) {
+        validate(refreshToken);
+        Token token = getToken(refreshToken);
+
+        return TokenResponse.builder()
+                .accessToken(token.getToken())
+                .build();
+    }
+
+    private void validate(String token) {
+        if (!Objects.equals(getType(token), TokenType.REFRESH_TOKEN.name())) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private void validate(String expectedToken, String actualToken) {
+        if (!Objects.equals(expectedToken, actualToken)) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private Token getToken(String refreshToken) {
+        String id = getId(refreshToken);
+        Token token = tokenRepository.findById(id).orElseThrow();
+        validate(refreshToken, token.getToken());
 
         return token;
     }
