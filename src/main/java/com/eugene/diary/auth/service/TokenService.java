@@ -56,6 +56,10 @@ public class TokenService {
                 .build();
     }
 
+    public void logout(User user) {
+        tokenRepository.deleteById(user.getEmail());
+    }
+
     private void validate(String token) {
         if (!Objects.equals(getType(token), TokenType.REFRESH_TOKEN.name())) {
             throw new IllegalArgumentException();
