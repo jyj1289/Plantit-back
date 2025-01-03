@@ -17,7 +17,7 @@ public class UserController {
 
     @GetMapping
     public SingleCommonResponse<UserResponse> getUserInfo(@AuthenticationPrincipal User user) {
-        return CommonResponse.success(
+        return CommonResponse.ok(
                 new UserResponse(user)
         );
     }
