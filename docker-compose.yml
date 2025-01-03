@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  mysql:
+    container_name: diary.local.db
+    image: mysql:8.0.30
+    environment:
+      MYSQL_ROOT_PASSWORD: "eugene"
+      MYSQL_USER: "eugene"
+      MYSQL_PASSWORD: "eugene"
+      MYSQL_DATABASE: "diary_service"
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --skip-character-set-client-handshake
+
+    ports:
+      - "3308:3306"
+
+  redis:
+    image: redis:7.0-alpine
+    container_name: diary.local.redis
+    command: /bin/sh -c "redis-server --requirepass bamdoliro"
+    ports:
+      - "6379:6379"
