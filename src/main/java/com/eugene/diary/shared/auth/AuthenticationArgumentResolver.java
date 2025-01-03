@@ -4,7 +4,6 @@ import com.eugene.diary.auth.service.TokenService;
 import com.eugene.diary.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;

@@ -1,5 +1,7 @@
 package com.eugene.diary.shared.auth;
 
+import com.eugene.diary.auth.exception.EmptyTokenException;
+import com.eugene.diary.auth.exception.InvalidTokenException;
 import com.eugene.diary.shared.config.properties.JwtProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -16,11 +18,11 @@ public class AuthenticationExtractor {
         String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
         if (authorizationHeader == null || authorizationHeader.isBlank()) {
-            throw new IllegalArgumentException("Empty Token");
+            throw new EmptyTokenException();
         }
 
         if (!authorizationHeader.startsWith(jwtProperties.getPrefix())) {
-            throw new IllegalStateException("Invalid Token");
+            throw new InvalidTokenException();
         }
 
         return authorizationHeader.replace(jwtProperties.getPrefix(), "").trim();

@@ -4,6 +4,8 @@ import com.eugene.diary.auth.controller.dto.response.TokenResponse;
 import com.eugene.diary.auth.domain.Token;
 import com.eugene.diary.auth.domain.TokenRepository;
 import com.eugene.diary.auth.domain.type.TokenType;
+import com.eugene.diary.auth.exception.ExpiredTokenException;
+import com.eugene.diary.auth.exception.InvalidTokenException;
 import com.eugene.diary.shared.config.properties.JwtProperties;
 import com.eugene.diary.user.domain.User;
 import com.eugene.diary.user.service.UserFacade;
@@ -115,8 +117,10 @@ public class TokenService {
                     .build()
                     .parseClaimsJws(token)
                     .getBody();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (ExpiredTokenException e) {
+            throw new ExpiredTokenException();
+        } catch(Exception e) {
+            throw new InvalidTokenException();
         }
     }
 
