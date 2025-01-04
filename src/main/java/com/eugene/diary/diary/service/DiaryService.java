@@ -23,10 +23,12 @@ public class DiaryService {
 
     private final DiaryRepository diaryRepository;
 
+    @Transactional
     public Long write(User author, DiaryRequest request) {
         Diary diary = new Diary(request.getContent(), author);
 
         validateWrite(author);
+        author.count();
 
         return diaryRepository.save(diary).getId();
     }
