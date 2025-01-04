@@ -1,17 +1,17 @@
 package com.eugene.diary.diary.domain;
 
+import com.eugene.diary.shared.entity.BaseTimeEntity;
+import com.eugene.diary.user.domain.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "tbl_diary")
 @Entity
-public class Diary {
+public class Diary extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,11 +20,20 @@ public class Diary {
     @Column(nullable = false, columnDefinition = "TEXT", length = 5000)
     private String content;
 
-    @Column(nullable = false)
-    private LocalDate writtenAt;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User author;
 
-    public Diary(String content, LocalDate writtenAt) {
+    public boolean isAuthor(User user) {
+        return author.equals(user);
+    }
+
+    public void update(String content) {
         this.content = content;
-        this.writtenAt = writtenAt;
+    }
+
+    public Diary(String content, User author) {
+        this.content = content;
+        this.author = author;
     }
 }
