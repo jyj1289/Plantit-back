@@ -25,7 +25,7 @@ public class DiaryService {
 
     @Transactional
     public Long write(User author, DiaryRequest request) {
-        Diary diary = new Diary(request.getContent(), author);
+        Diary diary = new Diary(request.getTitle(), request.getContent(), author);
 
         validateWrite(author);
         author.count();
@@ -57,7 +57,7 @@ public class DiaryService {
         validateAuthor(author, diary);
         validateTime(diary);
 
-        diary.update(request.getContent());
+        diary.update(request.getTitle(), request.getContent());
     }
 
     @Transactional

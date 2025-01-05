@@ -17,6 +17,9 @@ public class Diary extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, length = 150)
+    private String title;
+
     @Column(nullable = false, columnDefinition = "TEXT", length = 5000)
     private String content;
 
@@ -28,11 +31,13 @@ public class Diary extends BaseTimeEntity {
         return author.equals(user);
     }
 
-    public void update(String content) {
+    public void update(String title, String content) {
+        this.title = title;
         this.content = content;
     }
 
-    public Diary(String content, User author) {
+    public Diary(String title, String content, User author) {
+        this.title = title;
         this.content = content;
         this.author = author;
     }

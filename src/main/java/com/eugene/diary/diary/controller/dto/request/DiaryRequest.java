@@ -13,6 +13,10 @@ import lombok.NoArgsConstructor;
 public class DiaryRequest {
 
     @NotBlank(message = "필수값입니다.")
+    @Size(max = 150, message = "150자 이하여야합니다.")
+    private String title;
+
+    @NotBlank(message = "필수값입니다.")
     @Size(max = 5000, message = "5000자 이하여야합니다.")
     private String content;
 }
